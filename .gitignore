@@ -13,8 +13,6 @@
 *.out
 coverage.out
 
-task.txt
-
 # Go workspace
 bin/
 dist/

@@ -2,27 +2,33 @@ package database
 
 import (
 	"context"
+	"database/sql"
 
-	"github.com/jackc/pgx/v5/pgxpool"
+	_ "github.com/lib/pq"
 )
 
 type Postgres struct {
-	Pool *pgxpool.Pool
+	DB *sql.DB
 }
 
 func NewPostgres(databaseURL string) (*Postgres, error) {
-	pool, err := pgxpool.New(context.Background(), databaseURL)
+	db, err := sql.Open("postgres", databaseURL)
 	if err != nil {
 		return nil, err
 	}
 
-	return &Postgres{Pool: pool}, nil
+	if err := db.PingContext(context.Background()); err != nil {
+		_ = db.Close()
+		return nil, err
+	}
+
+	return &Postgres{DB: db}, nil
 }
 
 func (p *Postgres) Ping(ctx context.Context) error {
-	return p.Pool.Ping(ctx)
+	return p.DB.PingContext(ctx)
 }
 
 func (p *Postgres) Close() {
-	p.Pool.Close()
+	_ = p.DB.Close()
 }

@@ -40,6 +40,8 @@ func main() {
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
 	}))
 
+	e.Static("/assets", "frontend")
+	e.File("/", "frontend/index.html")
 	e.GET("/healthz", handler.Health)
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
 

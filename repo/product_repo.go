@@ -24,7 +24,7 @@ func (r *productRepository) GetAll(ctx context.Context) ([]models.Product, error
 	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 	defer cancel()
 
-	rows, err := r.db.Pool.Query(ctx, `
+	rows, err := r.db.DB.QueryContext(ctx, `
 		SELECT id, name, stock_count, last_updated
 		FROM products
 		ORDER BY id ASC
