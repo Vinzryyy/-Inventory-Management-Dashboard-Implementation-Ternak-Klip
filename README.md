@@ -50,9 +50,8 @@ http://localhost:8080
 PORT=8080
 DATABASE_URL=postgres://...
 SUPABASE_DB_URL=postgres://...
-ALLOWED_ORIGIN=http://localhost:3000
+ALLOWED_ORIGIN=*
 ```
-
 ## Endpoint
 
 - `GET /api/v1/products`
